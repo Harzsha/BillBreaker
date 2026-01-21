@@ -152,7 +152,7 @@ func ProcessVoiceExpense(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 
-		 // Save audio file temporarily
+		// Save audio file temporarily
 		tempDir := os.TempDir()
 		audioPath := filepath.Join(tempDir, file.Filename)
 		if err := c.SaveUploadedFile(file, audioPath); err != nil {
@@ -180,7 +180,7 @@ func ProcessVoiceExpense(db *gorm.DB) gin.HandlerFunc {
 			}
 		}
 
-		 // Create splits for all group members (equal split by default)
+		// Create splits for all group members (equal split by default)
 		var groupMembers []models.User
 		if err := db.Where("id IN (SELECT user_id FROM group_members WHERE group_id = ?)", groupID).
 			Find(&groupMembers).Error; err != nil {
@@ -226,13 +226,13 @@ func ProcessVoiceExpense(db *gorm.DB) gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusCreated, gin.H{
-			"success":      true,
-			"message":      "Expense created from voice recording",
-			"expense":      expense,
-			"transcribed":  transcribedText,
-			"amount":       expenseDetails.Amount,
-			"category":     expenseDetails.Category,
-			"description":  expenseDetails.Description,
+			"success":     true,
+			"message":     "Expense created from voice recording",
+			"expense":     expense,
+			"transcribed": transcribedText,
+			"amount":      expenseDetails.Amount,
+			"category":    expenseDetails.Category,
+			"description": expenseDetails.Description,
 		})
 	}
 }

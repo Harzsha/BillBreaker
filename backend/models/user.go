@@ -13,8 +13,8 @@ type User struct {
 	UpdatedAt time.Time `json:"updated_at"`
 
 	// Relations
-	Groups      []Group      `gorm:"many2many:group_members;" json:"groups,omitempty"`
-	Expenses    []Expense    `gorm:"foreignKey:PaidBy;references:ID" json:"expenses,omitempty"`
+	Groups   []Group   `gorm:"many2many:group_members;" json:"groups,omitempty"`
+	Expenses []Expense `gorm:"foreignKey:PaidBy;references:ID" json:"expenses,omitempty"`
 }
 
 // TableName specifies the table name for GORM

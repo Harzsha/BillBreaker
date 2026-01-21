@@ -133,7 +133,7 @@ export const useAuthStore = create<AuthState>((set) => ({
         const user: User = {
           id: storedUser.id,
           email: storedUser.email || '',
-          name: storedUser.user_metadata?.full_name || 'User',
+          name: storedUser.user_metadata?.full_name || storedUser.name || 'User',
           avatar: storedUser.user_metadata?.avatar_url,
         };
 
@@ -144,34 +144,17 @@ export const useAuthStore = create<AuthState>((set) => ({
           isLoading: false,
         });
       } else {
-        // Try to get current user from Supabase
-        const result = await authService.getCurrentUser();
-        if (result.success && result.user) {
-          const user: User = {
-            id: result.user.id,
-            email: result.user.email || '',
-            name: result.user.user_metadata?.full_name || 'User',
-            avatar: result.user.user_metadata?.avatar_url,
-          };
-
-          const sessionResult = await authService.getSession();
-          set({
-            user,
-            session: sessionResult.session,
-            isAuthenticated: true,
-            isLoading: false,
-          });
-        } else {
-          set({
-            user: null,
-            session: null,
-            isAuthenticated: false,
-            isLoading: false,
-          });
-        }
+        // No stored session, user not authenticated
+        set({
+          user: null,
+          session: null,
+          isAuthenticated: false,
+          isLoading: false,
+        });
       }
     } catch (error) {
       console.error('Auth check error:', error);
+      // Default to not authenticated on error
       set({
         user: null,
         session: null,

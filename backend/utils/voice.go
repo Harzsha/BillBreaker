@@ -111,7 +111,7 @@ Return ONLY the JSON object, no other text.
 	// Parse JSON response
 	var details ExpenseDetails
 	responseText := strings.TrimSpace(resp.Choices[0].Message.Content)
-	
+
 	// Try to extract JSON from response
 	jsonStr := extractJSON(responseText)
 	if err := json.Unmarshal([]byte(jsonStr), &details); err != nil {
